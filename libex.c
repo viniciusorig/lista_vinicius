@@ -85,11 +85,11 @@ double fill(double *ptr, int size)
 
 void document(FILE **name_of_file, const char name[])
 {
-    *name_of_file = fopen(name, "r+");
+    *name_of_file = fopen(name, "rb+");
     if (*name_of_file == NULL)
     {
         printf("Change of mode from r+ to w+\n");
-        *name_of_file = fopen(name, "w+");
+        *name_of_file = fopen(name, "wb+");
     }
 }
 
@@ -438,4 +438,82 @@ void write(FILE **file)
         }
     }
     fprintf(*file, "\n");
+}
+
+void binary(FILE **file, int vector[])
+{
+    int buf = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        fwrite(&vector[i], sizeof(int), 10, *file);
+        fprintf(*file, "\n");
+    }
+    printf("gravou no arquivo\n voce quer provas hahahahahahaha\n");
+    printf("aqui vai olha a converção ai bicho heheheheh");
+    rewind(*file);
+    for (int i = 0; i < 10; i++)
+    {
+        fread(&buf, sizeof(int), 1, *file);
+        printf("Valor da casa %d do vetor apos convertido é: %d\n", i, buf);
+    }
+}
+
+void allocate_matrix(int lin, int colum, int **matrix, FILE **file, FILE **file1)
+{
+
+    for (int i = 0; i < colum; i++)
+    {
+        *(matrix + i) = (int *)malloc(sizeof(int));
+    }
+    for (int i = 0; i < lin; i++)
+    {
+        for (int j = 0; j < colum; j++)
+        {
+            *(*(matrix + i)) = rand() % 100;
+        }
+    }
+    for (int i = 0; i < lin; i++)
+    {
+        for (int j = 0; j < colum; j++)
+        {
+
+            fprintf(*file, "%d\t", *((*(matrix + i))+j));
+        }
+        fprintf(*file, "\n");
+    }
+}
+
+void elements(int **matrix, int column1, int line1)
+{
+    int qtd = 0;
+    printf("Quantas pocisoes que deseja zerar?\t");
+    scanf("%d", &qtd);
+    int line[qtd], column[qtd];
+    for (int i = 0; i < qtd; i++)
+    {
+        printf("linha:\t");
+        scanf("%d", &line[i]);
+        printf("coluna:\t");
+        scanf("%d", &column[i]);
+    }
+    for (int i = 0; i < line1; i++)
+    {
+        for (int j = 0; j < column1; j++)
+        {
+            if(i == line[i]){
+                if(j == column[j]){
+                    *(*(matrix+i)+j) = 0;
+                }
+            }
+        }
+    }
+}
+
+void delete (int colum, int **matrix)
+{
+    for (int j = 0; j < colum; j++)
+    {
+        free(*(matrix + j));
+    }
+    free(matrix);
 }
