@@ -24,5 +24,9 @@ void espace(FILE **file);
 void word(FILE **file);
 void print1(FILE **file);
 void write(FILE **file);
+void binary(FILE **file, int vector[]);     
+void allocate_matrix(int lin, int colum, int **matrix, FILE **file, FILE **file1);
+void delete (int colum, int **matrix);
+void elements(int **matrix, int column1, int line1);
 
 #endif
